@@ -1,7 +1,9 @@
 from fastapi import FastAPI
+from app.routes import category
 
 def create_application():
     application = FastAPI()
+    application.include_router(category.category_router)
     return application
 
 
