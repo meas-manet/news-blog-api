@@ -12,6 +12,10 @@ category_router = APIRouter(prefix="/Category/api", tags=["Category"],responses=
 async def get_all_categories(session: AsyncSession = Depends(get_session)):
     return await category.get_all_categories(session)
 
+@category_router.get("/{id}",response_model=CategoryResponse)
+async def get_category_by_id(id:UUID,session: AsyncSession = Depends(get_session)):
+    return await category.get_category_by_id(id,session)
+
 @category_router.post("/",status_code=status.HTTP_201_CREATED, response_model=CategoryResponse)
 async def create_category(data: CreateCategoryRequest, session: AsyncSession = Depends(get_session)):
     return await category.create_category(data,session)

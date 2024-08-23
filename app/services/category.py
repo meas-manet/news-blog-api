@@ -35,6 +35,16 @@ async def get_all_categories(session: AsyncSession):
     
     return categories
 
+async def get_category_by_id(id: UUID, session: AsyncSession) -> Category:
+    stmt = select(Category).where(Category.category_id == id)
+    result = await session.execute(stmt)
+    category = result.scalars().first()
+
+    if category is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found")
+    
+    return category
+
 async def update_category(id: UUID, data: UpdateCategoryRequest, session: AsyncSession):
     stmt = select(Category).where(Category.category_id == id)
     result = await session.execute(stmt)
